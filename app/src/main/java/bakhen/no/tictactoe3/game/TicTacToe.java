@@ -238,6 +238,8 @@ public class TicTacToe extends AppCompatActivity {
         bottomLeftBtn.setOnClickListener(bottomLeftBtnOnClickListener);
         bottomCenterBtn.setOnClickListener(bottomCenterBtnOnClickListener);
         bottomRightBtn.setOnClickListener(bottomRightBtnOnClickListener);
+
+        restartGameBtn.setOnClickListener(restartGameBtnOnClickListener);
     }
 
     private void resetButtons() {
