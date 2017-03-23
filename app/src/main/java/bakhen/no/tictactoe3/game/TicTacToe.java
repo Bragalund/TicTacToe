@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.Random;
+
 import bakhen.no.tictactoe3.R;
 import bakhen.no.tictactoe3.SQLLite.DBService;
 import bakhen.no.tictactoe3.SQLLite.Player;
@@ -19,6 +21,7 @@ public class TicTacToe extends AppCompatActivity {
     private Button topLeftBtn, topCenterBtn, topRightBtn;
     private Button centerLeftBtn, centerCenterBtn, centerRightBtn;
     private Button bottomLeftBtn, bottomCenterBtn, bottomRightBtn;
+    private Button restartGameBtn;
     private ArrayList<Button> buttons;
     private int counter = 1;
 
@@ -54,6 +57,8 @@ public class TicTacToe extends AppCompatActivity {
         buttons.add(bottomLeftBtn);
         buttons.add(bottomCenterBtn);
         buttons.add(bottomRightBtn);
+
+        restartGameBtn = (Button) findViewById(R.id.restartGamebutton);
     }
 
     private void initPlayers() {
@@ -98,19 +103,21 @@ public class TicTacToe extends AppCompatActivity {
                 if (getRandomUnclickedButton() == null) {
                     CreateToast.createToast(getApplicationContext(), "There is no clickable buttons.");
                 } else {
-                    getRandomUnclickedButton().performClick();
+                    changeButton(getRandomUnclickedButton());
                 }
             }
-        }, 2000);
+        }, 1500);
     }
 
     private Button getRandomUnclickedButton() {
         Random random = new Random();
-        int randomNumber = random.nextInt(buttons.size());
         if (findClickableButtons().size() > 0) {
-            return findClickableButtons().get(randomNumber);
+            int randomNumber = random.nextInt(findClickableButtons().size());
+            if (findClickableButtons().size() > 0) {
+                return findClickableButtons().get(randomNumber);
+            }
         }
-        return null; //Could tap the finish button
+        return restartGameBtn;
     }
 
     private ArrayList<Button> findClickableButtons() {
@@ -123,16 +130,16 @@ public class TicTacToe extends AppCompatActivity {
         return clickableButtons;
     }
 
-    private Player getPlayingPlayer(){
-        if(counter % 2 == 0){
+    private Player getPlayingPlayer() {
+        if (counter % 2 == 0) {
             return secondPlayer;
         }
         return firstPlayer;
     }
 
     private String getSymbol() {
-        String text = "";
-        if (getPlayingPlayer().equals(secondPlayer)) {
+        String text;
+        if (getPlayingPlayer() == secondPlayer) {
             text = "O";
         } else {
             text = "X";
@@ -145,63 +152,98 @@ public class TicTacToe extends AppCompatActivity {
         button.setText(getSymbol());
         button.setClickable(false);
         counter++;
+
+        if (getPlayingPlayer() == secondPlayer) {
+            if (isAI) {
+                pressRandomButton();
+            }
+        }
     }
 
-    public void initListeners() {
-        topLeftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(topLeftBtn);
-            }
-        });
-        topCenterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(topCenterBtn);
-            }
-        });
-        topRightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(topRightBtn);
-            }
-        });
-        centerLeftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(centerLeftBtn);
-            }
-        });
-        centerCenterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(centerCenterBtn);
-            }
-        });
-        centerRightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(centerRightBtn);
-            }
-        });
-        bottomLeftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(bottomLeftBtn);
-            }
-        });
-        bottomCenterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(bottomCenterBtn);
-            }
-        });
-        bottomRightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeButton(bottomRightBtn);
-            }
-        });
+    View.OnClickListener topLeftBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(topLeftBtn);
+        }
+    };
 
+    View.OnClickListener topCenterBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(topCenterBtn);
+        }
+    };
+
+    View.OnClickListener topRightBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(topRightBtn);
+        }
+    };
+
+    View.OnClickListener centerLeftBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(centerLeftBtn);
+        }
+    };
+
+    View.OnClickListener centerCenterBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(centerCenterBtn);
+        }
+    };
+
+    View.OnClickListener centerRightBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(centerRightBtn);
+        }
+    };
+
+    View.OnClickListener bottomLeftBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(bottomLeftBtn);
+        }
+    };
+    View.OnClickListener bottomCenterBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(bottomCenterBtn);
+        }
+    };
+    View.OnClickListener bottomRightBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeButton(bottomRightBtn);
+        }
+    };
+
+    View.OnClickListener restartGameBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            resetButtons();
+        }
+    };
+
+    private void initListeners() {
+        topLeftBtn.setOnClickListener(topLeftBtnOnClickListener);
+        topCenterBtn.setOnClickListener(topCenterBtnOnClickListener);
+        topRightBtn.setOnClickListener(topRightBtnOnClickListener);
+        centerLeftBtn.setOnClickListener(centerLeftBtnOnClickListener);
+        centerCenterBtn.setOnClickListener(centerCenterBtnOnClickListener);
+        centerRightBtn.setOnClickListener(centerRightBtnOnClickListener);
+        bottomLeftBtn.setOnClickListener(bottomLeftBtnOnClickListener);
+        bottomCenterBtn.setOnClickListener(bottomCenterBtnOnClickListener);
+        bottomRightBtn.setOnClickListener(bottomRightBtnOnClickListener);
+    }
+
+    private void resetButtons() {
+        for (Button button : buttons) {
+            button.setText("");
+            button.setClickable(true);
+        }
     }
 }
