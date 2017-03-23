@@ -248,4 +248,30 @@ public class TicTacToe extends AppCompatActivity {
             button.setClickable(true);
         }
     }
+
+    private ArrayList<Button> buttonsClickedByPlayer() {
+        String symbolToCheck = getSymbol();
+        ArrayList<Button> buttonsClicked = new ArrayList<>();
+        for (Button button : buttons) {
+            if (button.getText() == symbolToCheck) {
+                buttonsClicked.add(button);
+            }
+        }
+        return buttonsClicked;
+    }
+
+    private boolean isWinner() {
+        if (buttonsClickedByPlayer().contains(topLeftBtn) && buttonsClickedByPlayer().contains(topCenterBtn) && buttonsClickedByPlayer().contains(topRightBtn)) {
+            return true;
+        }
+        return false;
+    }
+
+    private ArrayList<Button> getWinningButtons() {
+        ArrayList<Button> winningButtons = new ArrayList<>();
+        for (Button button : buttons) {
+            winningButtons.add(button);
+        }
+        return winningButtons;
+    }
 }
