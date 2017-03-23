@@ -9,7 +9,19 @@
         android:id="@+id/player_name_fragment_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:id="@+id/tictactoe_game_username_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="SomePlayer"
+            android:textColor="@color/orange"
+            android:textSize="30sp"
+            android:textStyle="bold|italic"/>
+    </FrameLayout>
 
     <GridLayout
         android:id="@+id/grid_layout"

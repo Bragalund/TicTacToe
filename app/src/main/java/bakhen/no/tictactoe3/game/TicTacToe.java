@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,7 +16,6 @@ import bakhen.no.tictactoe3.SQLLite.DBService;
 import bakhen.no.tictactoe3.SQLLite.Player;
 import bakhen.no.tictactoe3.Utils.CreateToast;
 
-import static bakhen.no.tictactoe3.R.style.AppTheme;
 
 public class TicTacToe extends AppCompatActivity {
     private Player firstPlayer, secondPlayer;
@@ -26,9 +26,7 @@ public class TicTacToe extends AppCompatActivity {
     private Button restartGameBtn;
     private ArrayList<Button> allGameButtons;
     private int counter = 1;
-    private ArrayList<Button> winnerButtons;
-
-    //TODO listeners crasher appen. Finn ut av hvorfor de ikke fungerer!
+    private TextView userNameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +35,8 @@ public class TicTacToe extends AppCompatActivity {
         initWidgets();
         initListeners();
         initPlayers();
+
+        setPlayerNameToTextField();
     }
 
     private void initWidgets() {
@@ -63,6 +63,8 @@ public class TicTacToe extends AppCompatActivity {
 
         restartGameBtn = (Button) findViewById(R.id.restartGamebutton);
         restartGameBtn.setClickable(false);
+
+        userNameTextView = (TextView) findViewById(R.id.tictactoe_game_username_textview);
     }
 
     private void initPlayers() {
@@ -75,7 +77,7 @@ public class TicTacToe extends AppCompatActivity {
         if (checkIfUserIsInDatabase(firstPlayerName)) {
             firstPlayer = dbService.getPlayer(firstPlayerName);
         } else {
-            Player firstPlayer = new Player(null, firstPlayerName, 0, 0);
+            firstPlayer = new Player(null, firstPlayerName, 0, 0);
             dbService.insertPlayerIntoDatabase(firstPlayer);
         }
 
@@ -105,9 +107,9 @@ public class TicTacToe extends AppCompatActivity {
             @Override
             public void run() {
                 if (getRandomUnclickedButton() == null) {
-                    CreateToast.createToast(getApplicationContext(), "There is no clickable allGameButtons.");
+                    CreateToast.createToast(getApplicationContext(), "There is no clickable Buttons.");
                 } else {
-                    changeButton(getRandomUnclickedButton());
+                    doStuffWhenButtonIsClicked(getRandomUnclickedButton());
                 }
             }
         }, 1500);
@@ -153,84 +155,91 @@ public class TicTacToe extends AppCompatActivity {
     }
 
 
-    public void changeButton(Button button) {
-        button.setText(getSymbol());
-        button.setClickable(false);
+    public void doStuffWhenButtonIsClicked(Button button) {
+        changeButton(button);
+
+        if (isWinner()) {
+            setAllGameButtonsToNotClickable();
+            restartGameBtn.setClickable(true);
+        }
         counter++;
 
-        if(isWinner()){
-            setAllGameButtonsToNotClickable();
-        }
+        setPlayerNameToTextField();
 
         if (getPlayingPlayer() == secondPlayer && isAI) {
             pressRandomButton();
         }
     }
 
-    private void setAllGameButtonsToNotClickable(){
-        for(Button button1 : allGameButtons){
-            button1.setClickable(false);
+    private void changeButton(Button button){
+        button.setText(getSymbol());
+        button.setClickable(false);
+    }
+
+    private void setAllGameButtonsToNotClickable() {
+        for (Button button : allGameButtons) {
+            button.setClickable(false);
         }
     }
 
     View.OnClickListener topLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(topLeftBtn);
+            doStuffWhenButtonIsClicked(topLeftBtn);
         }
     };
 
     View.OnClickListener topCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(topCenterBtn);
+            doStuffWhenButtonIsClicked(topCenterBtn);
         }
     };
 
     View.OnClickListener topRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(topRightBtn);
+            doStuffWhenButtonIsClicked(topRightBtn);
         }
     };
 
     View.OnClickListener centerLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(centerLeftBtn);
+            doStuffWhenButtonIsClicked(centerLeftBtn);
         }
     };
 
     View.OnClickListener centerCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(centerCenterBtn);
+            doStuffWhenButtonIsClicked(centerCenterBtn);
         }
     };
 
     View.OnClickListener centerRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(centerRightBtn);
+            doStuffWhenButtonIsClicked(centerRightBtn);
         }
     };
 
     View.OnClickListener bottomLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(bottomLeftBtn);
+            doStuffWhenButtonIsClicked(bottomLeftBtn);
         }
     };
     View.OnClickListener bottomCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(bottomCenterBtn);
+            doStuffWhenButtonIsClicked(bottomCenterBtn);
         }
     };
     View.OnClickListener bottomRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeButton(bottomRightBtn);
+            doStuffWhenButtonIsClicked(bottomRightBtn);
         }
     };
 
@@ -310,6 +319,10 @@ public class TicTacToe extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void setPlayerNameToTextField(){
+        userNameTextView.setText(getPlayingPlayer().getUserName());
     }
 
     private void colorWinningButtons(Button... buttons) {
