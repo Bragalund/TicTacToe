@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <color name="green">#588C7E</color>
+        <color name="orange">#F2AE72</color>
+        <color name="yellow">#F2E394</color>
+        <color name="light_red">#D96459</color>
+        <color name="dark_red">#8C4646</color>
+        <color name="black">#000000</color>
     </style>
 
 </resources>

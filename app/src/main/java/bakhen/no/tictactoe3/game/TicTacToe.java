@@ -15,6 +15,8 @@ import bakhen.no.tictactoe3.SQLLite.DBService;
 import bakhen.no.tictactoe3.SQLLite.Player;
 import bakhen.no.tictactoe3.Utils.CreateToast;
 
+import static bakhen.no.tictactoe3.R.style.AppTheme;
+
 public class TicTacToe extends AppCompatActivity {
     private Player firstPlayer, secondPlayer;
     private boolean isAI;
@@ -22,8 +24,9 @@ public class TicTacToe extends AppCompatActivity {
     private Button centerLeftBtn, centerCenterBtn, centerRightBtn;
     private Button bottomLeftBtn, bottomCenterBtn, bottomRightBtn;
     private Button restartGameBtn;
-    private ArrayList<Button> buttons;
+    private ArrayList<Button> allGameButtons;
     private int counter = 1;
+    private ArrayList<Button> winnerButtons;
 
     //TODO listeners crasher appen. Finn ut av hvorfor de ikke fungerer!
 
@@ -47,18 +50,19 @@ public class TicTacToe extends AppCompatActivity {
         bottomCenterBtn = (Button) findViewById(R.id.bottomcenterbutton);
         bottomRightBtn = (Button) findViewById(R.id.bottomrightbutton);
 
-        buttons = new ArrayList<>();
-        buttons.add(topLeftBtn);
-        buttons.add(topCenterBtn);
-        buttons.add(topRightBtn);
-        buttons.add(centerLeftBtn);
-        buttons.add(centerCenterBtn);
-        buttons.add(centerRightBtn);
-        buttons.add(bottomLeftBtn);
-        buttons.add(bottomCenterBtn);
-        buttons.add(bottomRightBtn);
+        allGameButtons = new ArrayList<>();
+        allGameButtons.add(topLeftBtn);
+        allGameButtons.add(topCenterBtn);
+        allGameButtons.add(topRightBtn);
+        allGameButtons.add(centerLeftBtn);
+        allGameButtons.add(centerCenterBtn);
+        allGameButtons.add(centerRightBtn);
+        allGameButtons.add(bottomLeftBtn);
+        allGameButtons.add(bottomCenterBtn);
+        allGameButtons.add(bottomRightBtn);
 
         restartGameBtn = (Button) findViewById(R.id.restartGamebutton);
+        restartGameBtn.setClickable(false);
     }
 
     private void initPlayers() {
@@ -101,7 +105,7 @@ public class TicTacToe extends AppCompatActivity {
             @Override
             public void run() {
                 if (getRandomUnclickedButton() == null) {
-                    CreateToast.createToast(getApplicationContext(), "There is no clickable buttons.");
+                    CreateToast.createToast(getApplicationContext(), "There is no clickable allGameButtons.");
                 } else {
                     changeButton(getRandomUnclickedButton());
                 }
@@ -117,14 +121,15 @@ public class TicTacToe extends AppCompatActivity {
                 return findClickableButtons().get(randomNumber);
             }
         }
+        restartGameBtn.setClickable(true);
         return restartGameBtn;
     }
 
     private ArrayList<Button> findClickableButtons() {
         ArrayList<Button> clickableButtons = new ArrayList<>();
-        for (int i = 0; i < buttons.size(); i++) {
-            if (buttons.get(i).isClickable()) {
-                clickableButtons.add(buttons.get(i));
+        for (int i = 0; i < allGameButtons.size(); i++) {
+            if (allGameButtons.get(i).isClickable()) {
+                clickableButtons.add(allGameButtons.get(i));
             }
         }
         return clickableButtons;
@@ -153,10 +158,18 @@ public class TicTacToe extends AppCompatActivity {
         button.setClickable(false);
         counter++;
 
-        if (getPlayingPlayer() == secondPlayer) {
-            if (isAI) {
-                pressRandomButton();
-            }
+        if(isWinner()){
+            setAllGameButtonsToNotClickable();
+        }
+
+        if (getPlayingPlayer() == secondPlayer && isAI) {
+            pressRandomButton();
+        }
+    }
+
+    private void setAllGameButtonsToNotClickable(){
+        for(Button button1 : allGameButtons){
+            button1.setClickable(false);
         }
     }
 
@@ -243,8 +256,9 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     private void resetButtons() {
-        for (Button button : buttons) {
+        for (Button button : allGameButtons) {
             button.setText("");
+            button.setBackgroundResource(android.R.drawable.btn_default);
             button.setClickable(true);
         }
     }
@@ -252,7 +266,7 @@ public class TicTacToe extends AppCompatActivity {
     private ArrayList<Button> buttonsClickedByPlayer() {
         String symbolToCheck = getSymbol();
         ArrayList<Button> buttonsClicked = new ArrayList<>();
-        for (Button button : buttons) {
+        for (Button button : allGameButtons) {
             if (button.getText() == symbolToCheck) {
                 buttonsClicked.add(button);
             }
@@ -261,17 +275,46 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     private boolean isWinner() {
+
+        //Checks all horizontal combinations
         if (buttonsClickedByPlayer().contains(topLeftBtn) && buttonsClickedByPlayer().contains(topCenterBtn) && buttonsClickedByPlayer().contains(topRightBtn)) {
+            colorWinningButtons(topLeftBtn, topCenterBtn, topRightBtn);
+            return true;
+        } else if (buttonsClickedByPlayer().contains(centerLeftBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(centerRightBtn)) {
+            colorWinningButtons(centerLeftBtn, centerCenterBtn, centerRightBtn);
+            return true;
+        } else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(bottomCenterBtn) && buttonsClickedByPlayer().contains(bottomRightBtn)) {
+            colorWinningButtons(bottomLeftBtn, bottomCenterBtn, bottomRightBtn);
             return true;
         }
+
+        //Checks all cross-combinations
+        else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(topRightBtn)) {
+            colorWinningButtons(bottomLeftBtn, centerCenterBtn, topRightBtn);
+            return true;
+        } else if (buttonsClickedByPlayer().contains(topLeftBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(bottomRightBtn)) {
+            colorWinningButtons(topLeftBtn, centerCenterBtn, bottomRightBtn);
+            return true;
+        } else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(bottomCenterBtn) && buttonsClickedByPlayer().contains(bottomRightBtn)) {
+            colorWinningButtons(bottomLeftBtn, bottomCenterBtn, bottomRightBtn);
+            return true;
+        }
+
+        //Checks all vertical combinations
+        else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(centerLeftBtn) && buttonsClickedByPlayer().contains(topLeftBtn)) {
+            return true;
+        } else if (buttonsClickedByPlayer().contains(bottomCenterBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(topCenterBtn)) {
+            return true;
+        } else if (buttonsClickedByPlayer().contains(bottomRightBtn) && buttonsClickedByPlayer().contains(centerRightBtn) && buttonsClickedByPlayer().contains(topRightBtn)) {
+            return true;
+        }
+
         return false;
     }
 
-    private ArrayList<Button> getWinningButtons() {
-        ArrayList<Button> winningButtons = new ArrayList<>();
+    private void colorWinningButtons(Button... buttons) {
         for (Button button : buttons) {
-            winningButtons.add(button);
+            button.setBackgroundColor(getResources().getColor(R.color.green));
         }
-        return winningButtons;
     }
 }

@@ -93,7 +93,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Restart game"
-        android:visibility="invisible"/>
+        android:text="Restart game" />
 
 </RelativeLayout>
