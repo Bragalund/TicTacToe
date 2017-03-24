@@ -104,7 +104,7 @@ public class DBService extends SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             for(int i =0; i<cursor.getCount(); i++){
                 cursor.moveToNext();
-                if(cursor.getString(1) == username){
+                if(cursor.getString(1).equals(username)){
                     Player player = new Player(null,"",0,0);
                     player.setID(cursor.getString(0));
                     player.setUserName(cursor.getString(1));

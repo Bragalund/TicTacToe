@@ -1,7 +1,9 @@
 package bakhen.no.tictactoe3.game;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +29,8 @@ public class TicTacToe extends AppCompatActivity {
     private ArrayList<Button> allGameButtons;
     private int counter = 1;
     private TextView userNameTextView;
+    private Drawable greyColor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,8 @@ public class TicTacToe extends AppCompatActivity {
 
         restartGameBtn = (Button) findViewById(R.id.restartGamebutton);
         restartGameBtn.setClickable(false);
+
+        greyColor = topRightBtn.getBackground();
 
         userNameTextView = (TextView) findViewById(R.id.tictactoe_game_username_textview);
     }
@@ -267,7 +273,7 @@ public class TicTacToe extends AppCompatActivity {
     private void resetButtons() {
         for (Button button : allGameButtons) {
             button.setText("");
-            button.setBackgroundResource(android.R.drawable.btn_default);
+            button.setBackground(greyColor);
             button.setClickable(true);
         }
     }
@@ -327,7 +333,7 @@ public class TicTacToe extends AppCompatActivity {
 
     private void colorWinningButtons(Button... buttons) {
         for (Button button : buttons) {
-            button.setBackgroundColor(getResources().getColor(R.color.green));
+            button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
         }
     }
 }
