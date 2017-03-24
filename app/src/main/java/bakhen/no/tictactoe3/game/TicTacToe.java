@@ -274,7 +274,6 @@ public class TicTacToe extends AppCompatActivity {
         if (!activeAI()) {
             dbservice.updatePlayerInDatabase(secondPlayer);
         }
-
     }
 
     private void changeButton(Button button) {
@@ -458,7 +457,7 @@ public class TicTacToe extends AppCompatActivity {
         if (getPlayingPlayer() == firstPlayer) {
             winnerText = "Winner! " + firstPlayer.getUserName() + " Winner!";
         } else if (activeAI()) {
-            winnerText = "Robots win! and will soon rule earth...";
+            winnerText = "Robots will soon rule the earth!";
         } else if (getPlayingPlayer() == secondPlayer) {
             winnerText = "Winner! " + secondPlayer.getUserName() + " Winner!";
         } else {
