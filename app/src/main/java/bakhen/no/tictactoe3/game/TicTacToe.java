@@ -119,11 +119,11 @@ public class TicTacToe extends AppCompatActivity {
                 if (getRandomUnclickedButton() == null) {
                     CreateToast.createToast(getApplicationContext(), "Something went wrong. There is no clickable Buttons.");
                 } else {
-
-                    buttonController(getRandomUnclickedButton());
+                    DisableButtons();
+                    pressGameButton(getRandomUnclickedButton());
                 }
             }
-        }, 1500);
+        }, 0);
     }
 
     private void pressSpecificButton(final Button button) {
@@ -174,10 +174,8 @@ public class TicTacToe extends AppCompatActivity {
         return text;
     }
 
-
-    public void buttonController(Button button) {
+    public void pressGameButton(Button button) {
         changeButton(button);
-
         if (isWinner()) {
             winningController();
         } else {
@@ -189,6 +187,34 @@ public class TicTacToe extends AppCompatActivity {
         changePlayer();
         if (activeAI()) {
             pressRandomButton();
+        }
+    }
+
+    private void DisableButtons() {
+        ArrayList<Button> buttonsInPlay = new ArrayList<>();
+        for (Button button : allGameButtons) {
+            if (button.isClickable()) {
+                buttonsInPlay.add(button);
+                button.setClickable(false);
+            }
+        }
+
+        waitForSomeTime();
+
+        setButtonsClickable(buttonsInPlay);
+    }
+
+    private void waitForSomeTime(){
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setButtonsClickable(ArrayList<Button> buttonsInPlay){
+        for (Button button : buttonsInPlay) {
+            button.setClickable(true);
         }
     }
 
@@ -220,7 +246,6 @@ public class TicTacToe extends AppCompatActivity {
         celebrateWinner();
         if (activeAI()) {
             makeAIRestartTheGame();
-            pressRandomButton();
         }
     }
 
@@ -266,71 +291,78 @@ public class TicTacToe extends AppCompatActivity {
     View.OnClickListener topLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(topLeftBtn);
+            pressGameButton(topLeftBtn);
         }
     };
 
     View.OnClickListener topCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(topCenterBtn);
+            pressGameButton(topCenterBtn);
         }
     };
 
     View.OnClickListener topRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(topRightBtn);
+            pressGameButton(topRightBtn);
         }
     };
 
     View.OnClickListener centerLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(centerLeftBtn);
+            pressGameButton(centerLeftBtn);
         }
     };
 
     View.OnClickListener centerCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(centerCenterBtn);
+            pressGameButton(centerCenterBtn);
         }
     };
 
     View.OnClickListener centerRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(centerRightBtn);
+            pressGameButton(centerRightBtn);
         }
     };
 
     View.OnClickListener bottomLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(bottomLeftBtn);
+            pressGameButton(bottomLeftBtn);
         }
     };
     View.OnClickListener bottomCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(bottomCenterBtn);
+            pressGameButton(bottomCenterBtn);
         }
     };
     View.OnClickListener bottomRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonController(bottomRightBtn);
+            pressGameButton(bottomRightBtn);
         }
     };
 
     View.OnClickListener restartGameBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            resetButtons();
-            changePlayer();
+            restartGameButtonController();
         }
     };
+
+    private void restartGameButtonController() {
+        resetButtons();
+        changePlayer();
+        if (activeAI()) {
+            pressRandomButton();
+        }
+    }
 
     private void initListeners() {
         topLeftBtn.setOnClickListener(topLeftBtnOnClickListener);
