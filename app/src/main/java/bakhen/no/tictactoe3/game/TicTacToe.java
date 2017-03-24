@@ -457,13 +457,13 @@ public class TicTacToe extends AppCompatActivity {
         int unicode;
         if (getPlayingPlayer() == firstPlayer) {
             unicode = 0x1F60A;
-            winnerText = "Winner! " + firstPlayer.getUserName() + " "+getEmoji(unicode);
+            winnerText = getEmoji(unicode)+" "+firstPlayer.getUserName() + " wins!";
         } else if (activeAI()) {
             unicode = 0x1F916;
             winnerText = "Robots Win!"+" "+getEmoji(unicode);
         } else if (getPlayingPlayer() == secondPlayer) {
-            unicode = 0x1F60A;
-            winnerText = "Winner! " + secondPlayer.getUserName() + " "+getEmoji(unicode);
+            unicode = 0x1F60A; //Skal egentlig vise robot-ansikt
+            winnerText = getEmoji(unicode)+" " + secondPlayer.getUserName() + " wins!";
         } else {
             winnerText = "Something went wrong...";
         }
