@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,17 +31,20 @@ public class TicTacToe extends AppCompatActivity {
     private int counter = 1;
     private TextView userNameTextView;
     private Drawable greyColor;
+    private RelativeLayout relativeLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tictactoe_game);
+
         initWidgets();
         initListeners();
         initPlayers();
 
         setPlayerNameToTextField();
+        setBackgroundColorForPlayer();
     }
 
     private void initWidgets() {
@@ -69,7 +73,7 @@ public class TicTacToe extends AppCompatActivity {
         restartGameBtn.setClickable(false);
 
         greyColor = topRightBtn.getBackground();
-
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
         userNameTextView = (TextView) findViewById(R.id.tictactoe_game_username_textview);
     }
 
@@ -113,12 +117,22 @@ public class TicTacToe extends AppCompatActivity {
             @Override
             public void run() {
                 if (getRandomUnclickedButton() == null) {
-                    CreateToast.createToast(getApplicationContext(), "There is no clickable Buttons.");
+                    CreateToast.createToast(getApplicationContext(), "Something went wrong. There is no clickable Buttons.");
                 } else {
-                    doStuffWhenButtonIsClicked(getRandomUnclickedButton());
+
+                    buttonController(getRandomUnclickedButton());
                 }
             }
         }, 1500);
+    }
+
+    private void pressSpecificButton(final Button button) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                button.performClick();
+            }
+        }, 500);
     }
 
     private Button getRandomUnclickedButton() {
@@ -161,23 +175,84 @@ public class TicTacToe extends AppCompatActivity {
     }
 
 
-    public void doStuffWhenButtonIsClicked(Button button) {
+    public void buttonController(Button button) {
         changeButton(button);
 
         if (isWinner()) {
-            setAllGameButtonsToNotClickable();
-            restartGameBtn.setClickable(true);
+            winningController();
+        } else {
+            continueMatch();
         }
-        counter++;
+    }
 
-        setPlayerNameToTextField();
-
-        if (getPlayingPlayer() == secondPlayer && isAI) {
+    private void continueMatch() {
+        changePlayer();
+        if (activeAI()) {
             pressRandomButton();
         }
     }
 
-    private void changeButton(Button button){
+    private void setBackgroundColorForPlayer() {
+        if (getPlayingPlayer() == firstPlayer) {
+            relativeLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+        } else if (getPlayingPlayer() == secondPlayer) {
+            relativeLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_red));
+        }
+    }
+
+    private void changePlayer() {
+        counter++;
+        setPlayerNameToTextField();
+        setBackgroundColorForPlayer();
+    }
+
+    private boolean activeAI() {
+        if (getPlayingPlayer() == secondPlayer && isAI) {
+            return true;
+        }
+        return false;
+    }
+
+    private void winningController() {
+        setAllGameButtonsToNotClickable();
+        setRestartButtonClickable();
+        saveResultToDatabase();
+        celebrateWinner();
+        if (activeAI()) {
+            makeAIRestartTheGame();
+            pressRandomButton();
+        }
+    }
+
+    private void makeAIRestartTheGame() {
+        pressSpecificButton(restartGameBtn);
+    }
+
+    private void setRestartButtonClickable() {
+        restartGameBtn.setClickable(true);
+    }
+
+    private void saveResultToDatabase() {
+        if (getPlayingPlayer() == firstPlayer) {
+            firstPlayer.setWins(firstPlayer.getWins() + 1);
+            secondPlayer.setLosses(secondPlayer.getLosses() + 1);
+        } else {
+            secondPlayer.setWins(secondPlayer.getWins() + 1);
+            firstPlayer.setLosses(firstPlayer.getLosses() + 1);
+        }
+        updatePlayersInDatabase();
+    }
+
+    private void updatePlayersInDatabase() {
+        DBService dbservice = new DBService(getApplicationContext(), DBService.DB_NAME, null, DBService.DATABASE_VERSION);
+        dbservice.updatePlayerInDatabase(firstPlayer);
+        if (!activeAI()) {
+            dbservice.updatePlayerInDatabase(secondPlayer);
+        }
+
+    }
+
+    private void changeButton(Button button) {
         button.setText(getSymbol());
         button.setClickable(false);
     }
@@ -191,61 +266,61 @@ public class TicTacToe extends AppCompatActivity {
     View.OnClickListener topLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(topLeftBtn);
+            buttonController(topLeftBtn);
         }
     };
 
     View.OnClickListener topCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(topCenterBtn);
+            buttonController(topCenterBtn);
         }
     };
 
     View.OnClickListener topRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(topRightBtn);
+            buttonController(topRightBtn);
         }
     };
 
     View.OnClickListener centerLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(centerLeftBtn);
+            buttonController(centerLeftBtn);
         }
     };
 
     View.OnClickListener centerCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(centerCenterBtn);
+            buttonController(centerCenterBtn);
         }
     };
 
     View.OnClickListener centerRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(centerRightBtn);
+            buttonController(centerRightBtn);
         }
     };
 
     View.OnClickListener bottomLeftBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(bottomLeftBtn);
+            buttonController(bottomLeftBtn);
         }
     };
     View.OnClickListener bottomCenterBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(bottomCenterBtn);
+            buttonController(bottomCenterBtn);
         }
     };
     View.OnClickListener bottomRightBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doStuffWhenButtonIsClicked(bottomRightBtn);
+            buttonController(bottomRightBtn);
         }
     };
 
@@ -253,6 +328,7 @@ public class TicTacToe extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             resetButtons();
+            changePlayer();
         }
     };
 
@@ -317,23 +393,47 @@ public class TicTacToe extends AppCompatActivity {
 
         //Checks all vertical combinations
         else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(centerLeftBtn) && buttonsClickedByPlayer().contains(topLeftBtn)) {
+            colorWinningButtons(bottomLeftBtn, centerLeftBtn, topLeftBtn);
             return true;
         } else if (buttonsClickedByPlayer().contains(bottomCenterBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(topCenterBtn)) {
+            colorWinningButtons(bottomCenterBtn, centerCenterBtn, topCenterBtn);
             return true;
         } else if (buttonsClickedByPlayer().contains(bottomRightBtn) && buttonsClickedByPlayer().contains(centerRightBtn) && buttonsClickedByPlayer().contains(topRightBtn)) {
+            colorWinningButtons(bottomRightBtn, centerRightBtn, topRightBtn);
             return true;
         }
-
         return false;
     }
 
-    private void setPlayerNameToTextField(){
-        userNameTextView.setText(getPlayingPlayer().getUserName());
+    private void setPlayerNameToTextField() {
+        String username;
+        if (activeAI()) {
+            username = getPlayingPlayer().getUserName() + " [AI]";
+        } else {
+            username = getPlayingPlayer().getUserName();
+        }
+        userNameTextView.setText(username);
     }
 
     private void colorWinningButtons(Button... buttons) {
         for (Button button : buttons) {
-            button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+            button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
         }
     }
+
+    private void celebrateWinner() {
+        String winnerText;
+        if (getPlayingPlayer() == firstPlayer) {
+            winnerText = "Winner! " + firstPlayer.getUserName() + " Winner!";
+        } else if (activeAI()) {
+            winnerText = "Robots win! and will soon rule earth...";
+        } else if (getPlayingPlayer() == secondPlayer) {
+            winnerText = "Winner! " + secondPlayer.getUserName() + " Winner!";
+        } else {
+            winnerText = "Something went wrong...";
+        }
+        userNameTextView.setText(winnerText);
+    }
+
+
 }
