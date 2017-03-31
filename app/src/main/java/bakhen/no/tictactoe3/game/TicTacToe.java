@@ -204,7 +204,7 @@ public class TicTacToe extends AppCompatActivity {
         setButtonsClickable(buttonsInPlay);
     }
 
-    private void waitForSomeTime(){
+    private void waitForSomeTime() {
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
@@ -212,7 +212,7 @@ public class TicTacToe extends AppCompatActivity {
         }
     }
 
-    private void setButtonsClickable(ArrayList<Button> buttonsInPlay){
+    private void setButtonsClickable(ArrayList<Button> buttonsInPlay) {
         for (Button button : buttonsInPlay) {
             button.setClickable(true);
         }
@@ -457,20 +457,20 @@ public class TicTacToe extends AppCompatActivity {
         int unicode;
         if (getPlayingPlayer() == firstPlayer) {
             unicode = 0x1F60A;
-            winnerText = getEmoji(unicode)+" "+firstPlayer.getUserName() + " wins!";
+            winnerText = getEmoji(unicode) + " " + firstPlayer.getUserName() + " wins!";
         } else if (activeAI()) {
             unicode = 0x1F916;
-            winnerText = "Robots Win!"+" "+getEmoji(unicode);
+            winnerText = "Robots Win!" + " " + getEmoji(unicode);
         } else if (getPlayingPlayer() == secondPlayer) {
             unicode = 0x1F60A; //Skal egentlig vise robot-ansikt
-            winnerText = getEmoji(unicode)+" " + secondPlayer.getUserName() + " wins!";
+            winnerText = getEmoji(unicode) + " " + secondPlayer.getUserName() + " wins!";
         } else {
             winnerText = "Something went wrong...";
         }
         userNameTextView.setText(winnerText);
     }
 
-    public String getEmoji(int unicode){
+    public String getEmoji(int unicode) {
         return new String(Character.toChars(unicode));
     }
 
