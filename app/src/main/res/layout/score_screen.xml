@@ -2,20 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <Button
-        android:id="@+id/Score_Screen_go_Back_Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Go back" />
+    android:orientation="vertical"
+    android:weightSum="1">
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/Score_Screen_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_height="160dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" >
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+    <Button
+        android:id="@+id/Score_Screen_go_Back_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:text="Go back" />
 
 
 </LinearLayout>
