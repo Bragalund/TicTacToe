@@ -101,6 +101,14 @@
     </GridLayout>
 
     <Button
+        android:id="@+id/tictactoe_game_score_screen_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Score screen"
+        android:layout_above="@+id/restartGamebutton"
+        android:layout_alignParentStart="true" />
+
+    <Button
         android:id="@+id/restartGamebutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

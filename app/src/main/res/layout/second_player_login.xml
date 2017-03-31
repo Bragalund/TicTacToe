@@ -51,7 +51,13 @@
         android:layout_marginBottom="100dp"
         android:text="AI"
         android:theme="@style/SwitchTheme" />
-
+    <Button
+        android:id="@+id/second_player_login_score_screen_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Score screen"
+        android:layout_above="@+id/login_start_game_button"
+        android:layout_alignParentStart="true" />
     <Button
         android:id="@+id/login_start_game_button"
         android:layout_width="match_parent"

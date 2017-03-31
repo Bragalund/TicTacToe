@@ -18,6 +18,7 @@ import java.util.Random;
 import bakhen.no.tictactoe3.R;
 import bakhen.no.tictactoe3.SQLLite.DBService;
 import bakhen.no.tictactoe3.SQLLite.Player;
+import bakhen.no.tictactoe3.Score.ScoreScreen;
 import bakhen.no.tictactoe3.Utils.CreateToast;
 
 
@@ -33,6 +34,7 @@ public class TicTacToe extends AppCompatActivity {
     private TextView userNameTextView;
     private Drawable greyColor;
     private RelativeLayout relativeLayout;
+    private Button scoreScreenBtn;
 
 
     @Override
@@ -76,6 +78,8 @@ public class TicTacToe extends AppCompatActivity {
         greyColor = topRightBtn.getBackground();
         relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
         userNameTextView = (TextView) findViewById(R.id.tictactoe_game_username_textview);
+
+        scoreScreenBtn = (Button) findViewById(R.id.tictactoe_game_score_screen_button);
     }
 
     private void initPlayers() {
@@ -241,10 +245,7 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     private boolean activeAI() {
-        if (getPlayingPlayer() == secondPlayer && isAI) {
-            return true;
-        }
-        return false;
+        return getPlayingPlayer() == secondPlayer && isAI;
     }
 
     private void winningController() {
@@ -293,6 +294,18 @@ public class TicTacToe extends AppCompatActivity {
         for (Button button : allGameButtons) {
             button.setClickable(false);
         }
+    }
+
+    View.OnClickListener scoreScreenBtnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showScoreScreen();
+        }
+    };
+
+    private void showScoreScreen(){
+        Intent intent = new Intent(this, ScoreScreen.class);
+        startActivityForResult(intent,1);
     }
 
     View.OnClickListener topLeftBtnOnClickListener = new View.OnClickListener() {
@@ -386,6 +399,8 @@ public class TicTacToe extends AppCompatActivity {
 
         //Sets onClickListener for restartGameButton
         restartGameBtn.setOnClickListener(restartGameBtnOnClickListener);
+
+        scoreScreenBtn.setOnClickListener(scoreScreenBtnListener);
     }
 
     private void resetButtons() {

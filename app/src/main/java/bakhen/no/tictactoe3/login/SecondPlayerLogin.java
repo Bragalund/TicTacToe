@@ -8,7 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.Switch;
 
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import bakhen.no.tictactoe3.R;
 import bakhen.no.tictactoe3.SQLLite.DBService;
 import bakhen.no.tictactoe3.SQLLite.Player;
+import bakhen.no.tictactoe3.Score.ScoreScreen;
 import bakhen.no.tictactoe3.Utils.CreateToast;
 import bakhen.no.tictactoe3.game.TicTacToe;
 
@@ -24,6 +25,7 @@ public class SecondPlayerLogin extends AppCompatActivity implements TextWatcher 
     private AutoCompleteTextView secondPlayerName;
     private String firstPlayerName;
     private ArrayAdapter adapter;
+    private Button scoreScreenBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +34,13 @@ public class SecondPlayerLogin extends AppCompatActivity implements TextWatcher 
         initWidgets();
         initAdapter();
         firstPlayerName = getFirstPlayerName(savedInstanceState);
-
     }
 
     private void initWidgets() {
         AISwitch = (Switch) findViewById(R.id.AISwitch);
         secondPlayerName = (AutoCompleteTextView) findViewById(R.id.login_second_player_edittext);
+        scoreScreenBtn = (Button) findViewById(R.id.second_player_login_score_screen_button);
+        scoreScreenBtn.setOnClickListener(scoreScreenBtnListener);
     }
 
     public void startGame(View v) {
@@ -83,8 +86,20 @@ public class SecondPlayerLogin extends AppCompatActivity implements TextWatcher 
         for (int i = 0; i < players.size(); i++) {
             usernames[i] = players.get(i).getUserName();
         }
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, usernames);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, usernames);
         secondPlayerName.setAdapter(adapter);
+    }
+
+    View.OnClickListener scoreScreenBtnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showScoreScreen();
+        }
+    };
+
+    private void showScoreScreen(){
+        Intent intent = new Intent(this, ScoreScreen.class);
+        startActivityForResult(intent,1);
     }
 
 }
