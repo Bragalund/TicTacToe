@@ -2,6 +2,7 @@ package bakhen.no.tictactoe3.game;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -119,7 +120,7 @@ public class TicTacToe extends AppCompatActivity {
                 if (getRandomUnclickedButton() == null) {
                     CreateToast.createToast(getApplicationContext(), "Something went wrong. There is no clickable Buttons.");
                 } else {
-                    DisableButtons();
+                    disableButtons();
                     pressGameButton(getRandomUnclickedButton());
                 }
             }
@@ -132,7 +133,7 @@ public class TicTacToe extends AppCompatActivity {
             public void run() {
                 button.performClick();
             }
-        }, 500);
+        }, 0);
     }
 
     private Button getRandomUnclickedButton() {
@@ -190,7 +191,7 @@ public class TicTacToe extends AppCompatActivity {
         }
     }
 
-    private void DisableButtons() {
+    protected void disableButtons() {
         ArrayList<Button> buttonsInPlay = new ArrayList<>();
         for (Button button : allGameButtons) {
             if (button.isClickable()) {
@@ -355,6 +356,7 @@ public class TicTacToe extends AppCompatActivity {
         }
     };
 
+
     private void restartGameButtonController() {
         resetButtons();
         changePlayer();
@@ -364,6 +366,7 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     private void initListeners() {
+        //Sets onClickListeners for all tictactoe-buttons
         topLeftBtn.setOnClickListener(topLeftBtnOnClickListener);
         topCenterBtn.setOnClickListener(topCenterBtnOnClickListener);
         topRightBtn.setOnClickListener(topRightBtnOnClickListener);
@@ -374,6 +377,7 @@ public class TicTacToe extends AppCompatActivity {
         bottomCenterBtn.setOnClickListener(bottomCenterBtnOnClickListener);
         bottomRightBtn.setOnClickListener(bottomRightBtnOnClickListener);
 
+        //Sets onClickListener for restartGameButton
         restartGameBtn.setOnClickListener(restartGameBtnOnClickListener);
     }
 
