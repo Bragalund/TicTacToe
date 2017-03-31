@@ -229,6 +229,13 @@ public class TicTacToe extends AppCompatActivity {
 
     private void changePlayer() {
         counter++;
+        if (counter > 100) {
+            if (getPlayingPlayer() == firstPlayer) {
+                counter = 1;
+            } else {
+                counter = 2;
+            }
+        }
         setPlayerNameToTextField();
         setBackgroundColorForPlayer();
     }
