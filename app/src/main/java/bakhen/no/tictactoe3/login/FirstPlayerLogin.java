@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import bakhen.no.tictactoe3.R;
 import bakhen.no.tictactoe3.SQLLite.DBService;
 import bakhen.no.tictactoe3.SQLLite.Player;
+import bakhen.no.tictactoe3.Score.RecyclerAdapter;
 import bakhen.no.tictactoe3.Score.ScoreScreen;
 import bakhen.no.tictactoe3.Utils.CreateToast;
 
@@ -30,7 +31,7 @@ public class FirstPlayerLogin extends AppCompatActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_player_login);
         initWidgets();
-        initAdapter();
+        initAdapters();
     }
 
     private void initWidgets() {
@@ -61,7 +62,7 @@ public class FirstPlayerLogin extends AppCompatActivity implements TextWatcher {
         CreateToast.validateText(getApplicationContext(), firstPlayerName.getText().toString(), "", false);
     }
 
-    private void initAdapter() {
+    private void initAdapters() {
         DBService dbService = new DBService(getApplicationContext(), DBService.DB_NAME, null, DBService.DATABASE_VERSION);
         ArrayList<Player> players = dbService.getAllPlayers();
         String[] usernames = new String[players.size()];

@@ -18,6 +18,7 @@ import java.util.Random;
 import bakhen.no.tictactoe3.R;
 import bakhen.no.tictactoe3.SQLLite.DBService;
 import bakhen.no.tictactoe3.SQLLite.Player;
+import bakhen.no.tictactoe3.Score.RecyclerAdapter;
 import bakhen.no.tictactoe3.Score.ScoreScreen;
 import bakhen.no.tictactoe3.Utils.CreateToast;
 
@@ -35,6 +36,7 @@ public class TicTacToe extends AppCompatActivity {
     private Drawable greyColor;
     private RelativeLayout relativeLayout;
     private Button scoreScreenBtn;
+
 
 
     @Override

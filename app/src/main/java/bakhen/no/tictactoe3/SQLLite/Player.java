@@ -1,6 +1,8 @@
 package bakhen.no.tictactoe3.SQLLite;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private String ID;
     private String userName;
     private int losses;
