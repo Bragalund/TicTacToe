@@ -44,7 +44,7 @@ public class SecondPlayerLogin extends AppCompatActivity implements TextWatcher 
     }
 
     public void startGame(View v) {
-        if (CreateToast.validateText(getApplicationContext(), firstPlayerName, secondPlayerName.getText().toString())) {
+        if (CreateToast.validateText(getApplicationContext(), firstPlayerName, secondPlayerName.getText().toString(), true)) {
             Intent intent = new Intent(this, TicTacToe.class);
             intent.putExtra(Intent.EXTRA_USER, firstPlayerName);
             intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, secondPlayerName.getText().toString());
@@ -76,7 +76,7 @@ public class SecondPlayerLogin extends AppCompatActivity implements TextWatcher 
 
     @Override
     public void afterTextChanged(Editable s) {
-        CreateToast.validateText(getApplicationContext(), firstPlayerName, secondPlayerName.getText().toString());
+        CreateToast.validateText(getApplicationContext(), firstPlayerName, secondPlayerName.getText().toString(), true);
     }
 
     private void initAdapter() {

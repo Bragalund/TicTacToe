@@ -41,7 +41,7 @@ public class FirstPlayerLogin extends AppCompatActivity implements TextWatcher {
     }
 
     public void nextPlayer(View v) {
-        if (CreateToast.validateText(getApplicationContext(), firstPlayerName.getText().toString(), "")) {
+        if (CreateToast.validateText(getApplicationContext(), firstPlayerName.getText().toString(), "", false)) {
             Intent intent = new Intent(this, SecondPlayerLogin.class);
             intent.putExtra(EXTRA_USER, firstPlayerName.getText().toString());
             startActivity(intent);
@@ -58,7 +58,7 @@ public class FirstPlayerLogin extends AppCompatActivity implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        CreateToast.validateText(getApplicationContext(), firstPlayerName.getText().toString(), "");
+        CreateToast.validateText(getApplicationContext(), firstPlayerName.getText().toString(), "", false);
     }
 
     private void initAdapter() {
