@@ -29,9 +29,7 @@ public class ScoreScreen extends AppCompatActivity {
     }
 
     private void initAdapters() {
-        DBService dbService = new DBService(getApplicationContext(), DBService.DB_NAME, null, DBService.DATABASE_VERSION);
-        ArrayList<Player> players = dbService.getAllPlayers();
-
+        ArrayList<Player> players = getAllPlayersInDatabase();
         mAdapter = new RecyclerAdapter(players);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -44,12 +42,42 @@ public class ScoreScreen extends AppCompatActivity {
         goBackBtn.setOnClickListener(goBackButtonListener);
     }
 
+    private ArrayList<Player> getAllPlayersInDatabase(){
+        DBService dbService = new DBService(getApplicationContext(), DBService.DB_NAME, null, DBService.DATABASE_VERSION);
+        return dbService.getAllPlayers();
+    }
+
     View.OnClickListener goBackButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             finish();
         }
     };
+
+    protected void onStart(){
+        super.onStart();
+    }
+
+    protected void onRestart(){
+        super.onRestart();
+    }
+
+    protected void onResume(){
+        super.onResume();
+    }
+
+    protected void onPause(){
+        super.onPause();
+    }
+
+    protected void onStop(){
+        super.onStop();
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
+    }
+
 
 
 }
