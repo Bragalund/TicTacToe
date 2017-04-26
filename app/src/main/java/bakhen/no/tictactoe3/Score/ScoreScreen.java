@@ -54,29 +54,6 @@ public class ScoreScreen extends AppCompatActivity {
         }
     };
 
-    protected void onStart(){
-        super.onStart();
-    }
-
-    protected void onRestart(){
-        super.onRestart();
-    }
-
-    protected void onResume(){
-        super.onResume();
-    }
-
-    protected void onPause(){
-        super.onPause();
-    }
-
-    protected void onStop(){
-        super.onStop();
-    }
-
-    protected void onDestroy(){
-        super.onDestroy();
-    }
 
 
 

@@ -87,29 +87,6 @@ public class FirstPlayerLogin extends AppCompatActivity implements TextWatcher {
         startActivityForResult(intent,1);
     }
 
-    protected void onStart(){
-        super.onStart();
-    }
-
-    protected void onRestart(){
-        super.onRestart();
-    }
-
-    protected void onResume(){
-        super.onResume();
-    }
-
-    protected void onPause(){
-        super.onPause();
-    }
-
-    protected void onStop(){
-        super.onStop();
-    }
-
-    protected void onDestroy(){
-        super.onDestroy();
-    }
 
 
 
