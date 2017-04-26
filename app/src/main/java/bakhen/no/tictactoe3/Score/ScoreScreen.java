@@ -38,8 +38,8 @@ public class ScoreScreen extends AppCompatActivity {
 
     private void initWidgets() {
         goBackBtn = (Button) findViewById(R.id.Score_Screen_go_Back_Button);
-        mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.Score_Screen_recyclerView);
+        mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         goBackBtn.setOnClickListener(goBackButtonListener);
     }
