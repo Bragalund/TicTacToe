@@ -193,7 +193,10 @@ public class TicTacToe extends AppCompatActivity {
     private void continueMatch() {
         changePlayer();
         if (activeAI()) {
-            pressRandomButton();
+            if(findClickableButtons().size() > 0){
+                pressRandomButton();
+            }
+
         }
     }
 
@@ -482,15 +485,13 @@ public class TicTacToe extends AppCompatActivity {
 
     private void celebrateWinner() {
         String winnerText;
-        int unicode;
+        int unicode = 0x1F60A;
         if (getPlayingPlayer() == firstPlayer) {
-            unicode = 0x1F60A;
+
             winnerText = getEmoji(unicode) + " " + firstPlayer.getUserName() + " wins!";
         } else if (activeAI()) {
-            unicode = 0x1F916;
             winnerText = "Robots Win!" + " " + getEmoji(unicode);
         } else if (getPlayingPlayer() == secondPlayer) {
-            unicode = 0x1F60A; //Skal egentlig vise robot-ansikt
             winnerText = getEmoji(unicode) + " " + secondPlayer.getUserName() + " wins!";
         } else {
             winnerText = "Something went wrong...";
