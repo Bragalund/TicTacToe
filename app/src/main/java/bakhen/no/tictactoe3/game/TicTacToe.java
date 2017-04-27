@@ -120,7 +120,7 @@ public class TicTacToe extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                    disableClickableButtonsForSomeTime();
+                    ButtonMethods.disableClickableButtonsForSomeTime(allGameButtons);
                     pressGameButton(getRandomUnclickedButton());
             }
         }, 0);
@@ -166,43 +166,11 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     public void pressGameButton(Button button) {
-        disableButton(button);
+        ButtonMethods.disableButton(button, getSymbol());
         if (isWinner()) {
             winningController();
         } else {
             continueMatch();
-        }
-    }
-
-
-
-    protected void disableClickableButtonsForSomeTime() {
-        //Disables all buttons and adds the current buttons in play into a arraylist
-        //The reason is to avoid the playing player to press buttons while the computer is "thinking"
-        ArrayList<Button> buttonsInPlay = new ArrayList<>();
-        for (Button button : allGameButtons) {
-            if (button.isClickable()) {
-                buttonsInPlay.add(button);
-                button.setClickable(false);
-            }
-        }
-        //Waits a little bit to pretend that the computer is thinking
-        waitForSomeTime();
-        //Sets the buttons back to their state when the computer is ready to press a button
-        setButtonsClickable(buttonsInPlay);
-    }
-
-    private void waitForSomeTime() {
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setButtonsClickable(ArrayList<Button> buttonsInPlay) {
-        for (Button button : buttonsInPlay) {
-            button.setClickable(true);
         }
     }
 
@@ -283,10 +251,7 @@ public class TicTacToe extends AppCompatActivity {
         }
     }
 
-    private void disableButton(Button button) {
-        button.setText(getSymbol());
-        button.setClickable(false);
-    }
+
 
     private void setAllGameButtonsToNotClickable() {
         for (Button button : allGameButtons) {
