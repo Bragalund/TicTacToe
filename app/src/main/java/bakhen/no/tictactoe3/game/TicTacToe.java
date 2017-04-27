@@ -259,12 +259,8 @@ public class TicTacToe extends AppCompatActivity {
         saveResultToDatabase();
         celebrateWinner();
         if (activeAI()) {
-            makeAIRestartTheGame();
+            restartGameButtonController();
         }
-    }
-
-    private void makeAIRestartTheGame() {
-        pressSpecificButton(restartGameBtn);
     }
 
     private void setRestartButtonClickable() {
@@ -404,7 +400,6 @@ public class TicTacToe extends AppCompatActivity {
 
         //Sets onClickListener for restartGameButton
         restartGameBtn.setOnClickListener(restartGameBtnOnClickListener);
-
         scoreScreenBtn.setOnClickListener(scoreScreenBtnListener);
     }
 
@@ -487,7 +482,6 @@ public class TicTacToe extends AppCompatActivity {
         String winnerText;
         int unicode = 0x1F60A;
         if (getPlayingPlayer() == firstPlayer) {
-
             winnerText = getEmoji(unicode) + " " + firstPlayer.getUserName() + " wins!";
         } else if (activeAI()) {
             winnerText = "Robots Win!" + " " + getEmoji(unicode);
