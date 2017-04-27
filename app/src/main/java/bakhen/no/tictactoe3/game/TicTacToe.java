@@ -374,9 +374,6 @@ public class TicTacToe extends AppCompatActivity {
         }
     };
 
-
-
-
     private void initListeners() {
         //Sets onClickListeners for all tictactoe-buttons
         topLeftBtn.setOnClickListener(topLeftBtnOnClickListener);
@@ -417,37 +414,37 @@ public class TicTacToe extends AppCompatActivity {
 
         //Checks all horizontal combinations
         if (buttonsClickedByPlayer().contains(topLeftBtn) && buttonsClickedByPlayer().contains(topCenterBtn) && buttonsClickedByPlayer().contains(topRightBtn)) {
-            colorWinningButtons(topLeftBtn, topCenterBtn, topRightBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(),topLeftBtn, topCenterBtn, topRightBtn);
             return true;
         } else if (buttonsClickedByPlayer().contains(centerLeftBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(centerRightBtn)) {
-            colorWinningButtons(centerLeftBtn, centerCenterBtn, centerRightBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(),centerLeftBtn, centerCenterBtn, centerRightBtn);
             return true;
         } else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(bottomCenterBtn) && buttonsClickedByPlayer().contains(bottomRightBtn)) {
-            colorWinningButtons(bottomLeftBtn, bottomCenterBtn, bottomRightBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(),bottomLeftBtn, bottomCenterBtn, bottomRightBtn);
             return true;
         }
 
         //Checks all cross-combinations
         else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(topRightBtn)) {
-            colorWinningButtons(bottomLeftBtn, centerCenterBtn, topRightBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(),bottomLeftBtn, centerCenterBtn, topRightBtn);
             return true;
         } else if (buttonsClickedByPlayer().contains(topLeftBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(bottomRightBtn)) {
-            colorWinningButtons(topLeftBtn, centerCenterBtn, bottomRightBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(),topLeftBtn, centerCenterBtn, bottomRightBtn);
             return true;
         } else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(bottomCenterBtn) && buttonsClickedByPlayer().contains(bottomRightBtn)) {
-            colorWinningButtons(bottomLeftBtn, bottomCenterBtn, bottomRightBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(),bottomLeftBtn, bottomCenterBtn, bottomRightBtn);
             return true;
         }
 
         //Checks all vertical combinations
         else if (buttonsClickedByPlayer().contains(bottomLeftBtn) && buttonsClickedByPlayer().contains(centerLeftBtn) && buttonsClickedByPlayer().contains(topLeftBtn)) {
-            colorWinningButtons(bottomLeftBtn, centerLeftBtn, topLeftBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(),bottomLeftBtn, centerLeftBtn, topLeftBtn);
             return true;
         } else if (buttonsClickedByPlayer().contains(bottomCenterBtn) && buttonsClickedByPlayer().contains(centerCenterBtn) && buttonsClickedByPlayer().contains(topCenterBtn)) {
-            colorWinningButtons(bottomCenterBtn, centerCenterBtn, topCenterBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(),bottomCenterBtn, centerCenterBtn, topCenterBtn);
             return true;
         } else if (buttonsClickedByPlayer().contains(bottomRightBtn) && buttonsClickedByPlayer().contains(centerRightBtn) && buttonsClickedByPlayer().contains(topRightBtn)) {
-            colorWinningButtons(bottomRightBtn, centerRightBtn, topRightBtn);
+            ButtonMethods.colorWinningButtons(getApplicationContext(), bottomRightBtn, centerRightBtn, topRightBtn);
             return true;
         }
         return false;
@@ -463,11 +460,7 @@ public class TicTacToe extends AppCompatActivity {
         userNameTextView.setText(username);
     }
 
-    private void colorWinningButtons(Button... buttons) {
-        for (Button button : buttons) {
-            button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
-        }
-    }
+
 
     private void celebrateWinner() {
         String winnerText;
@@ -487,7 +480,5 @@ public class TicTacToe extends AppCompatActivity {
     public String getEmoji(int unicode) {
         return new String(Character.toChars(unicode));
     }
-
-
 
 }
