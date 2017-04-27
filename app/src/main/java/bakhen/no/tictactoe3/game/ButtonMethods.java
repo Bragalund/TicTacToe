@@ -1,6 +1,7 @@
 package bakhen.no.tictactoe3.game;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.widget.Button;
 
@@ -10,13 +11,13 @@ import bakhen.no.tictactoe3.R;
 
 public class ButtonMethods {
 
-    public static void colorWinningButtons(Context context, Button... buttons) {
+    protected static void colorWinningButtons(Context context, Button... buttons) {
         for (Button button : buttons) {
             button.setBackgroundColor(ContextCompat.getColor(context, R.color.yellow));
         }
     }
 
-    public static void disableButton(Button button, String symbol) {
+    protected static void disableButton(Button button, String symbol) {
         button.setText(symbol);
         button.setClickable(false);
     }
@@ -50,4 +51,24 @@ public class ButtonMethods {
             button.setClickable(true);
         }
     }
+
+    protected static void resetButtons(ArrayList<Button> allGameButtons, Drawable greyColor) {
+        for (Button button : allGameButtons) {
+            button.setText("");
+            button.setBackground(greyColor);
+            button.setClickable(true);
+        }
+    }
+
+    protected static void makeButtonClickable(Button button) {
+        button.setClickable(true);
+    }
+
+    protected static void setAllGameButtonsToNotClickable(ArrayList<Button> allGameButtons) {
+        for (Button button : allGameButtons) {
+            button.setClickable(false);
+        }
+    }
+
+
 }

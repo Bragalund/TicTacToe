@@ -211,7 +211,7 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     private void restartGameButtonController() {
-        resetButtons();
+        ButtonMethods.resetButtons(allGameButtons, greyColor);
         changePlayer();
         if (activeAI()) {
             pressRandomButton();
@@ -219,8 +219,8 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     private void winningController() {
-        setAllGameButtonsToNotClickable();
-        setRestartButtonClickable();
+        ButtonMethods.setAllGameButtonsToNotClickable(allGameButtons);
+        ButtonMethods.makeButtonClickable(restartGameBtn);
         saveResultToDatabase();
         celebrateWinner();
         if (activeAI()) {
@@ -228,9 +228,7 @@ public class TicTacToe extends AppCompatActivity {
         }
     }
 
-    private void setRestartButtonClickable() {
-        restartGameBtn.setClickable(true);
-    }
+
 
     private void saveResultToDatabase() {
         if (getPlayingPlayer() == firstPlayer) {
@@ -253,11 +251,7 @@ public class TicTacToe extends AppCompatActivity {
 
 
 
-    private void setAllGameButtonsToNotClickable() {
-        for (Button button : allGameButtons) {
-            button.setClickable(false);
-        }
-    }
+
 
     View.OnClickListener scoreScreenBtnListener = new View.OnClickListener() {
         @Override
@@ -356,13 +350,7 @@ public class TicTacToe extends AppCompatActivity {
         scoreScreenBtn.setOnClickListener(scoreScreenBtnListener);
     }
 
-    private void resetButtons() {
-        for (Button button : allGameButtons) {
-            button.setText("");
-            button.setBackground(greyColor);
-            button.setClickable(true);
-        }
-    }
+
 
     private ArrayList<Button> buttonsClickedByPlayer() {
         String symbolToCheck = getSymbol();
