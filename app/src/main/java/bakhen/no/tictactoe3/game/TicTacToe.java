@@ -166,7 +166,7 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     public void pressGameButton(Button button) {
-        changeButton(button);
+        disableButton(button);
         if (isWinner()) {
             winningController();
         } else {
@@ -174,15 +174,7 @@ public class TicTacToe extends AppCompatActivity {
         }
     }
 
-    private void continueMatch() {
-        changePlayer();
-        if (activeAI()) {
-            if(findClickableButtons().size() > 0){
-                pressRandomButton();
-            }
 
-        }
-    }
 
     protected void disableClickableButtonsForSomeTime() {
         //Disables all buttons and adds the current buttons in play into a arraylist
@@ -239,6 +231,17 @@ public class TicTacToe extends AppCompatActivity {
         return getPlayingPlayer() == secondPlayer && isAI;
     }
 
+    private void continueMatch() {
+        changePlayer();
+        if (activeAI()) {
+            if(findClickableButtons().size() > 0){
+                pressRandomButton();
+            }else{
+                restartGameButtonController();
+            }
+        }
+    }
+
     private void restartGameButtonController() {
         resetButtons();
         changePlayer();
@@ -280,7 +283,7 @@ public class TicTacToe extends AppCompatActivity {
         }
     }
 
-    private void changeButton(Button button) {
+    private void disableButton(Button button) {
         button.setText(getSymbol());
         button.setClickable(false);
     }
