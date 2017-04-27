@@ -123,12 +123,8 @@ public class TicTacToe extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (getRandomUnclickedButton() == null) {
-                    CreateToast.createToast(getApplicationContext(), "Something went wrong. There is no clickable Buttons.");
-                } else {
                     disableButtons();
                     pressGameButton(getRandomUnclickedButton());
-                }
             }
         }, 0);
     }
@@ -251,6 +247,14 @@ public class TicTacToe extends AppCompatActivity {
 
     private boolean activeAI() {
         return getPlayingPlayer() == secondPlayer && isAI;
+    }
+
+    private void restartGameButtonController() {
+        resetButtons();
+        changePlayer();
+        if (activeAI()) {
+            pressRandomButton();
+        }
     }
 
     private void winningController() {
@@ -378,13 +382,7 @@ public class TicTacToe extends AppCompatActivity {
     };
 
 
-    private void restartGameButtonController() {
-        resetButtons();
-        changePlayer();
-        if (activeAI()) {
-            pressRandomButton();
-        }
-    }
+
 
     private void initListeners() {
         //Sets onClickListeners for all tictactoe-buttons
