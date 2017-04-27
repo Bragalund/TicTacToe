@@ -228,8 +228,6 @@ public class TicTacToe extends AppCompatActivity {
         }
     }
 
-
-
     private void saveResultToDatabase() {
         if (getPlayingPlayer() == firstPlayer) {
             firstPlayer.setWins(firstPlayer.getWins() + 1);
@@ -248,10 +246,6 @@ public class TicTacToe extends AppCompatActivity {
             dbservice.updatePlayerInDatabase(secondPlayer);
         }
     }
-
-
-
-
 
     View.OnClickListener scoreScreenBtnListener = new View.OnClickListener() {
         @Override
@@ -350,8 +344,6 @@ public class TicTacToe extends AppCompatActivity {
         scoreScreenBtn.setOnClickListener(scoreScreenBtnListener);
     }
 
-
-
     private ArrayList<Button> buttonsClickedByPlayer() {
         String symbolToCheck = getSymbol();
         ArrayList<Button> buttonsClicked = new ArrayList<>();
@@ -412,8 +404,6 @@ public class TicTacToe extends AppCompatActivity {
         }
         userNameTextView.setText(username);
     }
-
-
 
     private void celebrateWinner() {
         String winnerText;
