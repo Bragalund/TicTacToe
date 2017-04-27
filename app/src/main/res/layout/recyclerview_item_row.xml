@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/recyclerview_item_row_linearlayout"
+    android:orientation="horizontal"
+    android:background="@color/orange">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <TextView
+            android:id="@+id/Score_Screen_Username_Textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:text="Some Username"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/Score_Screen_User_Win_Score_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:text="some Win Score"
+            android:layout_alignBaseline="@+id/Score_Screen_User_Lose_Score_textView"
+            android:layout_alignBottom="@+id/Score_Screen_User_Lose_Score_textView"
+            android:layout_toEndOf="@+id/Score_Screen_User_Lose_Score_textView"
+            android:layout_marginStart="57dp" />
+
+        <TextView
+            android:id="@+id/Score_Screen_User_Lose_Score_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="end"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:text="some Lose Score"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>
