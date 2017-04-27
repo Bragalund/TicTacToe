@@ -2,7 +2,6 @@ package bakhen.no.tictactoe3.game;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +17,7 @@ import java.util.Random;
 import bakhen.no.tictactoe3.R;
 import bakhen.no.tictactoe3.SQLLite.DBService;
 import bakhen.no.tictactoe3.SQLLite.Player;
-import bakhen.no.tictactoe3.Score.RecyclerAdapter;
 import bakhen.no.tictactoe3.Score.ScoreScreen;
-import bakhen.no.tictactoe3.Utils.CreateToast;
 
 
 public class TicTacToe extends AppCompatActivity {
@@ -123,17 +120,8 @@ public class TicTacToe extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                    disableButtons();
+                    disableClickableButtonsForSomeTime();
                     pressGameButton(getRandomUnclickedButton());
-            }
-        }, 0);
-    }
-
-    private void pressSpecificButton(final Button button) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                button.performClick();
             }
         }, 0);
     }
@@ -196,7 +184,9 @@ public class TicTacToe extends AppCompatActivity {
         }
     }
 
-    protected void disableButtons() {
+    protected void disableClickableButtonsForSomeTime() {
+        //Disables all buttons and adds the current buttons in play into a arraylist
+        //The reason is to avoid the playing player to press buttons while the computer is "thinking"
         ArrayList<Button> buttonsInPlay = new ArrayList<>();
         for (Button button : allGameButtons) {
             if (button.isClickable()) {
@@ -204,9 +194,9 @@ public class TicTacToe extends AppCompatActivity {
                 button.setClickable(false);
             }
         }
-
+        //Waits a little bit to pretend that the computer is thinking
         waitForSomeTime();
-
+        //Sets the buttons back to their state when the computer is ready to press a button
         setButtonsClickable(buttonsInPlay);
     }
 
